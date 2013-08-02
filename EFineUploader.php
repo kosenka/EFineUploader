@@ -114,7 +114,7 @@ class EFineUploader extends CWidget
                                 'multiple'=>false
                                );
 		$config = array_merge($config, $this->config);
-		$config['params']=$postParams;
+		//$config['params']=$postParams;
 		$config = CJavaScript::encode($config);
                 Yii::app()->getClientScript()->registerScript("FineUploader_".$this->id, "var FineUploader_".$this->id." = new qq.FineUploader($config);",CClientScript::POS_LOAD);
 	}
