@@ -71,53 +71,48 @@ $this->widget('ext.EFineUploader.EFineUploader',
         }
 
 */
-class EFineUploader extends CWidget
-{
-        public $version="3.4.1";
-        public $id="fineUploader";
-	public $config=array();
-	public $css=null;
-        
-        public function run()
-        {
-		if(empty($this->config['request']['endpoint']))
-		{
-		      throw new CException('EFineUploader: param "request::endpoint" cannot be empty.');
-                }
+class EFineUploader extends CWidget {
 
-		if(!is_array($this->config['validation']['allowedExtensions']))
-		{
-		      throw new CException('EFineUploader: param "validation::allowedExtensions" must be an array.');
-                }
+    public $version = "3.4.1";
+    public $id = "fineUploader";
+    public $config = array();
+    public $css = null;
 
-		if(empty($this->config['validation']['sizeLimit']))
-		{
-		      throw new CException('EFineUploader: param "validation::sizeLimit" cannot be empty.');
-                }
+    public function run() {
+        if (empty($this->config['request']['endpoint'])) {
+            throw new CException('EFineUploader: param "request::endpoint" cannot be empty.');
+        }
 
-                unset($this->config['element']);
+        if (!is_array($this->config['validation']['allowedExtensions'])) {
+            throw new CException('EFineUploader: param "validation::allowedExtensions" must be an array.');
+        }
 
-                echo '<div id="'.$this->id.'"><noscript><p>Please enable JavaScript to use file uploader.</p></noscript></div>';
+        if (empty($this->config['validation']['sizeLimit'])) {
+            throw new CException('EFineUploader: param "validation::sizeLimit" cannot be empty.');
+        }
 
-		$assets = dirname(__FILE__).'/assets';
-                $baseUrl = Yii::app()->assetManager->publish($assets);
+        unset($this->config['element']);
 
-                $fJs=(YII_DEBUG)?$baseUrl."/jquery.fineuploader-{$this->version}.js":$baseUrl."/jquery.fineuploader-{$this->version}.min.js";
-                Yii::app()->clientScript->registerScriptFile($fJs, CClientScript::POS_HEAD);
+        echo '<div id="' . $this->id . '"><noscript><p>Please enable JavaScript to use file uploader.</p></noscript></div>';
 
-                $this->css=(!empty($this->css))?$this->css:$baseUrl."/fineuploader-{$this->version}.css";
-                Yii::app()->clientScript->registerCssFile($this->css);
+        $assets = dirname(__FILE__) . '/assets';
+        $baseUrl = Yii::app()->assetManager->publish($assets);
 
-		$config = array(
-                                'element'=>'js:document.getElementById("'.$this->id.'")',
-                                'debug'=>false,
-                                'multiple'=>false
-                               );
-		$config = array_merge($config, $this->config);
-		//$config['params']=$postParams;
-		$config = CJavaScript::encode($config);
-                Yii::app()->getClientScript()->registerScript("FineUploader_".$this->id, "var FineUploader_".$this->id." = new qq.FineUploader($config);",CClientScript::POS_LOAD);
-	}
+        $fJs = (YII_DEBUG) ? $baseUrl . "/jquery.fineuploader-{$this->version}.js" : $baseUrl . "/jquery.fineuploader-{$this->version}.min.js";
+        Yii::app()->clientScript->registerScriptFile($fJs, CClientScript::POS_HEAD);
 
+        $this->css = (!empty($this->css)) ? $this->css : $baseUrl . "/fineuploader-{$this->version}.css";
+        Yii::app()->clientScript->registerCssFile($this->css);
+
+        $config = array(
+            'element' => 'js:document.getElementById("' . $this->id . '")',
+            'debug' => false,
+            'multiple' => false
+        );
+        $config = array_merge($config, $this->config);
+        //$config['params']=$postParams;
+        $config = CJavaScript::encode($config);
+        Yii::app()->getClientScript()->registerScript("FineUploader_" . $this->id, "var FineUploader_" . $this->id . " = new qq.FineUploader($config);", CClientScript::POS_LOAD);
+    }
 
 }
